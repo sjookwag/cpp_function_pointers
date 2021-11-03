@@ -1,28 +1,32 @@
 #include <stdio.h>
-#include <stdlib.h>
-
-#pragma warning(disable:4996)
 
 void First(void);
-void Second(void);
-void Third(void);
+int Second(int);
+
 
 void main(void){
-  printf("------ before atexit() -------");  
-  atexit(First);
-  atexit(Second);
-  atexit(Third);
-  printf("------ after atexit() -------");  
+  void (* func1)(void);
+  int (* func2)(int);
+
+  func1=First;
+  func1();
+
+  func1=(void (*)(void)) Second;
+  func1();
+
+  func2=(int (*)(int)) First;
+  func2(123);
+  
+  func2=Second;
+  func2(456);
+
 }
 
 void First(void){
   printf("First() \n");
 }
 
-void Second(void){
+int Second(int n){
   printf("Second() \n");  
-}
-
-void Third(void){
-  printf("Third() \n");  
+  return n*2;
 }
